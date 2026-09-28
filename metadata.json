@@ -1,0 +1,6 @@
+{
+  "name": "Gyro Wheel",
+  "description": "900-degree Gyroscope Steering Wheel Gamepad for Android TV, Google TV, and Set-Top Boxes",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

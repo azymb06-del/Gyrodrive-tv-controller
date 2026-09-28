@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Gyro Wheel</string>
+    <string name="action_scan_connect">Scan &amp; Connect TV</string>
+    <string name="action_scanning">Scanning…</string>
+    <string name="action_calibrate_center">Calibrate Center</string>
+    <string name="action_handbrake">Handbrake (X)</string>
+    <string name="label_steering_angle">STEERING ANGLE</string>
+    <string name="label_brake_pedal">BRAKE</string>
+    <string name="label_throttle_pedal">THROTTLE</string>
+    <string name="label_sensitivity_lock">Total Lock Angle</string>
+    <string name="label_lock_180">180°</string>
+    <string name="label_lock_540">540°</string>
+    <string name="label_lock_900">900°</string>
+    <string name="status_not_connected">Status: Disconnected</string>
+    <string name="status_connected_format">Connected: %s</string>
+    <string name="status_registered">HID Ready</string>
+    <string name="status_unregistered">Registering HID…</string>
+    <string name="status_scanning_devices">Scanning for Android TV / Devices…</string>
+    <string name="dialog_devices_title">Select Android TV / Game Receiver</string>
+    <string name="dialog_paired_devices">Paired Devices</string>
+    <string name="dialog_discovered_devices">Discovered Devices</string>
+    <string name="dialog_no_devices">No devices found yet. Put your Android TV in Bluetooth pairing mode.</string>
+    <string name="permission_rationale">Bluetooth Scan and Connect permissions are required to emulate a wireless HID Gamepad for Android TV.</string>
+    <string name="permission_grant_btn">Grant Permissions</string>
+    <string name="toast_calibrated">Steering Center Zeroed (0.0°)</string>
+    <string name="toast_bluetooth_disabled">Please enable Bluetooth to connect to Android TV</string>
+    <string name="toast_gyro_missing">No Gyroscope sensor found on this device</string>
+    <string name="toast_connecting">Connecting to %s…</string>
+    <string name="toast_connected">Connected to %s</string>
+    <string name="toast_disconnected">Disconnected</string>
+</resources>
