@@ -2,16 +2,24 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- High sampling rate for low-latency gyroscope integration (Android 12+) -->
+    <!-- Düşük gecikmeli jiroskop örneklemesi için (Android 12+) -->
     <uses-permission android:name="android.permission.HIGH_SAMPLING_RATE_SENSORS" />
 
-    <!-- Wake lock to prevent screen sleep while driving -->
+    <!-- Ekranın oyun esnasında açık kalması için -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
-    <!-- Haptic feedback for pedal & calibration sensations -->
+    <!-- Pedal ve kalibrasyon dokunsal titreşimi için -->
     <uses-permission android:name="android.permission.VIBRATE" />
 
-    <!-- Bluetooth Legacy Permissions (Android 11 and lower) -->
+    <!-- Yerel Mod (Overlay UI) için Sistem Üzerine Çizim İzni -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <!-- Yerel Mod Arka Plan Sürekliliği (Foreground Service) -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- Eski Bluetooth İzinleri (Android 11 ve altı) -->
     <uses-permission
         android:name="android.permission.BLUETOOTH"
         android:maxSdkVersion="30" />
@@ -19,38 +27,32 @@
         android:name="android.permission.BLUETOOTH_ADMIN"
         android:maxSdkVersion="30" />
 
-    <!-- Bluetooth Modern Permissions (Android 12+ / API 31+) -->
-    <uses-permission
-        android:name="android.permission.BLUETOOTH_CONNECT" />
+    <!-- Modern Bluetooth İzinleri (Android 12+ / API 31+) -->
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission
         android:name="android.permission.BLUETOOTH_SCAN"
         android:usesPermissionFlags="neverForLocation"
         tools:targetApi="s" />
-    <uses-permission
-        android:name="android.permission.BLUETOOTH_ADVERTISE" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
 
-    <!-- Location required for Bluetooth discovery on Android 11 and below -->
+    <!-- Android 11 ve altı Bluetooth taraması için konum izni -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-    <!-- Hardware requirements -->
+    <!-- Zorunlu Sensör ve Donanım Özellikleri -->
     <uses-feature
         android:name="android.hardware.sensor.gyroscope"
         android:required="true" />
     <uses-feature
         android:name="android.hardware.bluetooth"
-        android:required="true" />
+        android:required="false" />
 
     <application
         android:allowBackup="true"
-        android:dataExtractionRules="@xml/data_extraction_rules"
-        android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:hardwareAccelerated="true"
-        android:theme="@style/Theme.GyroWheel">
+        android:theme="@style/Theme.Material3.Dark.NoActionBar">
 
         <activity
             android:name=".MainActivity"
@@ -58,12 +60,36 @@
             android:label="@string/app_name"
             android:screenOrientation="sensorLandscape"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
-            android:theme="@style/Theme.GyroWheel">
+            android:theme="@style/Theme.Material3.Dark.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Yerel Mod 1: Arka Planda Şeffaf Katman (Overlay UI) Servisi -->
+        <service
+            android:name=".LocalWheelOverlayService"
+            android:foregroundServiceType="specialUse"
+            android:exported="false">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Overlay gaming controller for accessibility and local steering gesture injection" />
+        </service>
+
+        <!-- Yerel Mod 2: Jiroskop ile Dokunmatik Direksiyon Hareketi Enjeksiyon Servisi -->
+        <service
+            android:name=".LocalSteeringAccessibilityService"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
+        </service>
+
     </application>
 
 </manifest>

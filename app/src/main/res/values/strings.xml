@@ -29,4 +29,8 @@
     <string name="toast_connecting">Connecting to %s…</string>
     <string name="toast_connected">Connected to %s</string>
     <string name="toast_disconnected">Disconnected</string>
+    <string name="accessibility_service_desc">Karton direksiyon oyun modu için sanal dokunmatik direksiyon enjeksiyonu ve kontrollerini sağlar.</string>
+    <string name="local_mode_title">Yerel Mod (Karton Direksiyon)</string>
+    <string name="local_mode_notification_title">Gyro Wheel: Yerel Direksiyon Modu Aktif</string>
+    <string name="local_mode_notification_text">Karton direksiyon ve ekran üstü katman çalışıyor.</string>
 </resources>

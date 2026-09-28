@@ -5,33 +5,43 @@ import kotlin.math.abs
 import kotlin.math.sign
 
 /**
- * Low-Latency Gyroscope Integration and Sensor Fusion Engine.
+ * Düşük Gecikmeli Jiroskop Entegrasyon ve Sensör Füzyon Motoru.
  *
- * Integrates Gyroscope angular velocity around the steering axis over delta-time (dt),
- * applies an exponential low-pass filter, enforces a deadzone around zero,
- * clamps within user-selectable wheel locks (180°, 540°, 900°), and maps the
- * steering angle to standard HID Gamepad 16-bit signed integer range (-32768 to +32767).
+ * X, Y ve Z eksenleri arasında seçim imkânı sunar, yön tersine çevirmeyi (invert) destekler,
+ * sürekli entegrasyon ile direksiyon açısını hesaplar, anti-windup kilit mekanizması
+ * ve merkez ölü bölge (deadzone) uygulayarak standart 16-bit HID analog değerine dönüştürür.
  */
 class GyroMathEngine(
     var lockAngle: Float = 900.0f,
-    private val alpha: Float = 0.18f,
+    private val alpha: Float = 0.20f,
     private val deadzoneDegrees: Float = 1.5f
 ) {
+
+    enum class Axis(val label: String) {
+        X("X Ekseni"),
+        Y("Y Ekseni"),
+        Z("Z Ekseni (Önerilen)")
+    }
 
     data class Output(
         val totalRawAngle: Float,
         val filteredAngle: Float,
         val effectiveAngle: Float,
         val analogStickX: Short,
-        val lockAngle: Float
+        val lockAngle: Float,
+        val activeAxis: Axis,
+        val isInverted: Boolean
     )
+
+    var activeAxis: Axis = Axis.Z
+    var isInverted: Boolean = false
 
     private var lastTimestampNs: Long = 0L
     private var totalAngle: Float = 0.0f
     private var filteredAngle: Float = 0.0f
 
     /**
-     * Resets the accumulated steering angle to zero (center calibration).
+     * Direksiyon açısını o anki pozisyonda 0.0° olarak sıfırlar (Merkez Kalibrasyonu).
      */
     fun calibrateCenter() {
         totalAngle = 0.0f
@@ -40,7 +50,7 @@ class GyroMathEngine(
     }
 
     /**
-     * Updates the maximum steering lock angle (e.g. 180°, 540°, 900°).
+     * Maksimum kilit açısını günceller (Örn: 180°, 540°, 900°, 1080°).
      */
     fun setLockAngleDegree(newLock: Float) {
         if (newLock > 0f) {
@@ -49,38 +59,47 @@ class GyroMathEngine(
     }
 
     /**
-     * Processes an incoming gyroscope event on the steering axis.
+     * Sensörden gelen 3 eksenli (X, Y, Z) açısal hız verilerini işler.
      *
-     * @param gyroXRadPerSec Angular velocity in radians per second (Sensor.TYPE_GYROSCOPE X-axis).
-     * @param timestampNs Event timestamp in nanoseconds from hardware sensor event.
-     * @return Output containing the integrated angles and converted 16-bit analog stick value.
+     * @param gyroX Rad/s X ekseni
+     * @param gyroY Rad/s Y ekseni
+     * @param gyroZ Rad/s Z ekseni
+     * @param timestampNs Donanım sensör zaman damgası (nanosaniye)
      */
-    fun process(gyroXRadPerSec: Float, timestampNs: Long): Output {
+    fun process(gyroX: Float, gyroY: Float, gyroZ: Float, timestampNs: Long): Output {
         val dtSeconds = if (lastTimestampNs > 0L && timestampNs > lastTimestampNs) {
             val delta = (timestampNs - lastTimestampNs) * 1e-9f
-            // Reject anomalous delta time jumps (e.g. when app resumes)
             if (delta > 0.1f) 0.0f else delta
         } else {
             0.0f
         }
         lastTimestampNs = timestampNs
 
-        // Continuous steering integration: totalAngle += gyroX_rad_per_sec * dt_seconds * (180.0 / PI)
-        val deltaDegrees = gyroXRadPerSec * dtSeconds * (180.0f / PI.toFloat())
+        // Seçilen eksene göre açısal hızı al
+        val rawVelocity = when (activeAxis) {
+            Axis.X -> gyroX
+            Axis.Y -> gyroY
+            Axis.Z -> gyroZ
+        }
+
+        // Yön tersine çevirme kontrolü
+        val directedVelocity = if (isInverted) -rawVelocity else rawVelocity
+
+        // Açısal entegrasyon: deltaAngle = omega * dt * (180 / PI)
+        val deltaDegrees = directedVelocity * dtSeconds * (180.0f / PI.toFloat())
         val halfLock = lockAngle / 2.0f
 
-        // Anti-windup: clamp continuous integrated angle to mechanical lock stops
+        // Anti-windup: Entegratörün kilit açısını aşmasını engeller
         totalAngle = (totalAngle + deltaDegrees).coerceIn(-halfLock, halfLock)
 
-        // Exponential Low-Pass Filter: filteredAngle = alpha * rawAngle + (1 - alpha) * prevAngle
+        // Üstel Alçak Geçiren Filtre
         filteredAngle = (alpha * totalAngle) + ((1.0f - alpha) * filteredAngle)
         val clampedFiltered = filteredAngle.coerceIn(-halfLock, halfLock)
 
-        // Center Deadzone computation & Lock-stop saturation
+        // Merkez Ölü Bölge (Deadzone) ve Kilit Doygunluğu
         val effectiveAngle = if (abs(clampedFiltered) <= deadzoneDegrees) {
             0.0f
         } else if (abs(clampedFiltered) >= halfLock - 0.1f) {
-            // Saturated at mechanical lock stops (-halfLock to +halfLock)
             sign(clampedFiltered) * halfLock
         } else {
             val s = sign(clampedFiltered)
@@ -89,7 +108,7 @@ class GyroMathEngine(
             (s * scaled).coerceIn(-halfLock, halfLock)
         }
 
-        // Map clamped angle to Left Analog Stick X-Axis integer range (-32768 to +32767)
+        // Sol Analog Çubuk X-Ekseni aralığına (-32768 ile +32767) haritalama
         val normalized = (effectiveAngle / halfLock).coerceIn(-1.0f, 1.0f)
         val rawStickInt = if (normalized >= 1.0f) {
             32767
@@ -107,7 +126,9 @@ class GyroMathEngine(
             filteredAngle = filteredAngle,
             effectiveAngle = effectiveAngle,
             analogStickX = analogStickX,
-            lockAngle = lockAngle
+            lockAngle = lockAngle,
+            activeAxis = activeAxis,
+            isInverted = isInverted
         )
     }
 }

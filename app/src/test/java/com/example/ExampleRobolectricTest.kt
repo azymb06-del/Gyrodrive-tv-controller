@@ -22,16 +22,19 @@ class ExampleRobolectricTest {
     }
 
     @Test
-    fun `activity launches and initializes controls`() {
+    fun `activity launches and initializes main menu and cockpit controls`() {
         ActivityScenario.launch(MainActivity::class.java).use { scenario ->
             scenario.onActivity { activity ->
                 assertNotNull(activity)
-                assertNotNull(activity.findViewById(R.id.btnScanConnect))
-                assertNotNull(activity.findViewById(R.id.btnCalibrateCenter))
-                assertNotNull(activity.findViewById(R.id.btnHandbrake))
-                assertNotNull(activity.findViewById(R.id.btnBrakePedal))
-                assertNotNull(activity.findViewById(R.id.btnThrottlePedal))
-                assertNotNull(activity.findViewById(R.id.tvAngleReadout))
+                assertNotNull(activity.findViewById(R.id.btnLaunchCockpit))
+                assertNotNull(activity.findViewById(R.id.btnMenuScan))
+                assertNotNull(activity.findViewById(R.id.groupAxis))
+                assertNotNull(activity.findViewById(R.id.btnAxisZ))
+                assertNotNull(activity.findViewById(R.id.switchInvertAxis))
+                assertNotNull(activity.findViewById(R.id.groupProfiles))
+                assertNotNull(activity.findViewById(R.id.switchVibration))
+                assertNotNull(activity.findViewById(R.id.btnCockpitBrake))
+                assertNotNull(activity.findViewById(R.id.btnCockpitThrottle))
             }
         }
     }

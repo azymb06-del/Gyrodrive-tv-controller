@@ -1,313 +1,1152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main_layout"
+    android:id="@+id/rootContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0B0F19"
-    android:padding="12dp">
+    android:background="#0B0F19">
 
-    <!-- ========================================== -->
-    <!-- TOP BAR CONTROLS                           -->
-    <!-- ========================================== -->
-    <LinearLayout
-        android:id="@+id/topBar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingStart="14dp"
-        android:paddingEnd="14dp"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <!-- Scan & Connect TV Button -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnScanConnect"
-            style="@style/Widget.Material3.Button.TonalButton"
-            android:layout_width="wrap_content"
-            android:layout_height="44dp"
-            android:text="Scan &amp; Connect TV"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            android:textColor="#00E5FF"
-            app:backgroundTint="#1A00E5FF"
-            app:cornerRadius="12dp" />
-
-        <!-- Calibrate Center Button -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnCalibrateCenter"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="44dp"
-            android:layout_marginStart="8dp"
-            android:text="Calibrate Center"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            android:textColor="#F8FAFC"
-            app:strokeColor="#334155"
-            app:cornerRadius="12dp" />
-
-        <!-- Handbrake (X) Button -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnHandbrake"
-            style="@style/Widget.Material3.Button.TonalButton"
-            android:layout_width="wrap_content"
-            android:layout_height="44dp"
-            android:layout_marginStart="8dp"
-            android:text="Handbrake (X)"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            android:textColor="#FF9100"
-            app:backgroundTint="#26FF9100"
-            app:cornerRadius="12dp" />
-
-        <!-- Spacer -->
-        <View
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_weight="1" />
-
-        <!-- Sensitivity Lock Angle Slider / Control -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="end"
-            android:layout_marginStart="8dp">
-
-            <TextView
-                android:id="@+id/tvLockLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Lock: 900° (±450°)"
-                android:textColor="#94A3B8"
-                android:textSize="11sp"
-                android:textStyle="bold" />
-
-            <com.google.android.material.slider.Slider
-                android:id="@+id/sliderLockAngle"
-                android:layout_width="160dp"
-                android:layout_height="32dp"
-                android:valueFrom="0.0"
-                android:valueTo="2.0"
-                android:stepSize="1.0"
-                android:value="2.0"
-                app:thumbColor="#00E5FF"
-                app:trackColorActive="#00E5FF"
-                app:trackColorInactive="#334155"
-                app:haloColor="#1A00E5FF" />
-        </LinearLayout>
-
-        <!-- Connection Status Indicator Pill -->
-        <TextView
-            android:id="@+id/tvConnectionStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            android:text="Status: Disconnected"
-            android:textColor="#EF4444"
-            android:textSize="11sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-    <!-- ========================================== -->
-    <!-- LEFT TOUCH AREA: BRAKE PEDAL               -->
-    <!-- ========================================== -->
-    <FrameLayout
-        android:id="@+id/brakeTouchContainer"
-        android:layout_width="150dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="4dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topBar"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <LinearLayout
-            android:id="@+id/btnBrakePedal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:clickable="true"
-            android:focusable="true">
-
-            <TextView
-                android:id="@+id/tvBrakeSymbol"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="🛑"
-                android:textSize="32sp" />
-
-            <TextView
-                android:id="@+id/tvBrakeLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="BRAKE"
-                android:textColor="#FF1744"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:text="BTN 2 / B"
-                android:textColor="#64748B"
-                android:textSize="11sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-    </FrameLayout>
-
-    <!-- ========================================== -->
-    <!-- RIGHT TOUCH AREA: THROTTLE PEDAL           -->
-    <!-- ========================================== -->
-    <FrameLayout
-        android:id="@+id/throttleTouchContainer"
-        android:layout_width="150dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topBar"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <LinearLayout
-            android:id="@+id/btnThrottlePedal"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:clickable="true"
-            android:focusable="true">
-
-            <TextView
-                android:id="@+id/tvThrottleSymbol"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="⚡"
-                android:textSize="32sp" />
-
-            <TextView
-                android:id="@+id/tvThrottleLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="THROTTLE"
-                android:textColor="#00E676"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:text="BTN 1 / A"
-                android:textColor="#64748B"
-                android:textSize="11sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-    </FrameLayout>
-
-    <!-- ========================================== -->
-    <!-- CENTER COCKPIT & DIGITAL TELEMETRY         -->
-    <!-- ========================================== -->
+    <!-- ============================================================== -->
+    <!-- 1. ANA MENÜ VE AYARLAR EKRANI (MAIN MENU VIEW)                 -->
+    <!-- ============================================================== -->
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/centerCockpit"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="4dp"
-        android:padding="12dp"
-        app:layout_constraintStart_toEndOf="@id/brakeTouchContainer"
-        app:layout_constraintEnd_toStartOf="@id/throttleTouchContainer"
-        app:layout_constraintTop_toBottomOf="@id/topBar"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:id="@+id/viewMainMenu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible">
 
-        <!-- Center Wheel Graphic (Rotates with Gyro) -->
-        <ImageView
-            android:id="@+id/ivSteeringWheel"
-            android:layout_width="140dp"
-            android:layout_height="140dp"
-            android:contentDescription="Steering Wheel"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
-        <!-- Telemetry Details Container -->
+        <!-- Ana Menü Üst Başlık Çubuğu -->
         <LinearLayout
+            android:id="@+id/menuTopBar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_marginStart="16dp"
-            app:layout_constraintStart_toEndOf="@id/ivSteeringWheel"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="#151D2C"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="STEERING ANGLE"
-                android:textColor="#94A3B8"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:letterSpacing="0.1" />
-
-            <!-- Large Digital Angle Readout -->
-            <TextView
-                android:id="@+id/tvAngleReadout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0.0°"
+                android:text="🏎️ GYRO WHEEL PRO"
                 android:textColor="#00E5FF"
-                android:textSize="44sp"
-                android:textStyle="bold"
-                android:fontFamily="sans-serif-black"
-                android:includeFontPadding="false" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-            <!-- Horizontal Steering Progress Indicator -->
-            <com.google.android.material.progressindicator.LinearProgressIndicator
-                android:id="@+id/steeringProgressIndicator"
-                android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:max="1000"
-                android:progress="500"
-                app:indicatorColor="#00E5FF"
-                app:trackColor="#334155"
-                app:trackCornerRadius="4dp" />
-
-            <!-- Detailed Telemetry Status -->
             <TextView
-                android:id="@+id/tvTelemetryDetails"
+                android:id="@+id/tvMenuConnectionBadge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Stick X: 0 | Lock: ±450° | HID: Ready"
-                android:textColor="#64748B"
+                android:layout_marginStart="14dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:text="Bağlantı Yok"
+                android:textColor="#EF4444"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <!-- Yerel Mod / Karton Direksiyon Butonu -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMenuLocalMode"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:layout_marginEnd="10dp"
+                android:text="📦 YEREL MOD (KARTON)"
+                android:textColor="#F59E0B"
                 android:textSize="12sp"
-                android:fontFamily="monospace" />
+                android:textStyle="bold"
+                app:backgroundTint="#26F59E0B"
+                app:strokeColor="#F59E0B"
+                app:strokeWidth="1dp"
+                app:cornerRadius="12dp" />
+
+            <!-- Sürüşe Başla / Launch Cockpit Butonu -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLaunchCockpit"
+                style="@style/Widget.Material3.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:text="BLUETOOTH KOKPİT 🏁"
+                android:textColor="#0B0F19"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:backgroundTint="#00E5FF"
+                app:cornerRadius="12dp" />
 
         </LinearLayout>
+
+        <!-- Kaydırılabilir İçerik Alanı -->
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            android:padding="12dp"
+            app:layout_constraintTop_toBottomOf="@id/menuTopBar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- 0. KART: KOKPİT TEMASI SEÇİMİ (3 FARKLI TEMA) -->
+                <LinearLayout
+                    android:id="@+id/cardTheme"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:layout_marginBottom="12dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/tvThemeHeader"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="🎨 KOKPİT TEMASI &amp; GÖRSEL STİL"
+                            android:textColor="#00E5FF"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvThemeActiveBadge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
+                            android:paddingTop="3dp"
+                            android:paddingBottom="3dp"
+                            android:text="Orijinal Neon"
+                            android:textColor="#00E5FF"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvThemeDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Oyun ortamınıza ve göz konforunuza uygun temayı seçin:"
+                        android:textColor="#94A3B8"
+                        android:textSize="12sp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="10dp" />
+
+                    <!-- 3 Tema Seçim Grubu -->
+                    <com.google.android.material.button.MaterialButtonToggleGroup
+                        android:id="@+id/groupTheme"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:singleSelection="true"
+                        app:selectionRequired="true">
+
+                        <!-- 1. Orijinal Neon -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnThemeOriginal"
+                            style="@style/Widget.Material3.Button.OutlinedButton"
+                            android:layout_width="0dp"
+                            android:layout_height="46dp"
+                            android:layout_weight="1"
+                            android:text="⚡ Orijinal Neon"
+                            android:textColor="#00E5FF"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+
+                        <!-- 2. Göz Yormayan Saf Siyah (AMOLED Gece) -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnThemeAmoled"
+                            style="@style/Widget.Material3.Button.OutlinedButton"
+                            android:layout_width="0dp"
+                            android:layout_height="46dp"
+                            android:layout_weight="1"
+                            android:text="🌑 Göz Yormayan Siyah"
+                            android:textColor="#E0E0E0"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+
+                        <!-- 3. Kendin Yap (Rosso Carbon GT) -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnThemeCrimson"
+                            style="@style/Widget.Material3.Button.OutlinedButton"
+                            android:layout_width="0dp"
+                            android:layout_height="46dp"
+                            android:layout_weight="1"
+                            android:text="🏎️ Karbon Kırmızı (GT)"
+                            android:textColor="#FF1744"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+
+                    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+                </LinearLayout>
+
+                <!-- 0. KART: YEREL MOD (KARTON DİREKSİYON & OVERLAY / TRUCKERS OF EUROPE 3) -->
+                <LinearLayout
+                    android:id="@+id/cardLocalMode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:layout_marginBottom="12dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="📦 KARTON DİREKSİYON &amp; YEREL OYUN MODU"
+                            android:textColor="#F59E0B"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvLocalModeStatusBadge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
+                            android:paddingTop="3dp"
+                            android:paddingBottom="3dp"
+                            android:text="Durduruldu"
+                            android:textColor="#94A3B8"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Truckers of Europe 3 vb. mobil oyunlar için telefonu karton direksiyona sabitleyin. Ekranın üzerine şeffaf gaz, fren ve 0° merkezleme katmanı açılır; jiroskop dönüşleri sanal dokunmatik direksiyon hareketine dönüştürülür."
+                        android:textColor="#94A3B8"
+                        android:textSize="12sp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="10dp" />
+
+                    <!-- İzin Durumları -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="6dp">
+
+                        <TextView
+                            android:id="@+id/tvOverlayPermissionStatus"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="• Ekran Üzerine Çizim (Overlay): Kontrol ediliyor..."
+                            android:textColor="#CBD5E1"
+                            android:textSize="12sp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnGrantOverlayPerm"
+                            style="@style/Widget.Material3.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:text="İzin Ver"
+                            android:textColor="#F59E0B"
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="12dp">
+
+                        <TextView
+                            android:id="@+id/tvAccessibilityStatus"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="• Erişilebilirlik (Input Injection): Kontrol ediliyor..."
+                            android:textColor="#CBD5E1"
+                            android:textSize="12sp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnOpenAccessibilitySettings"
+                            style="@style/Widget.Material3.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="36dp"
+                            android:text="Ayarları Aç"
+                            android:textColor="#00E5FF"
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+
+                    <!-- Yerel Modu Başlat / Durdur Ana Butonu -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnStartLocalMode"
+                        style="@style/Widget.Material3.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:text="📦 YEREL MODU BAŞLAT (ŞEFFAF KATMAN &amp; JİROSKOP)"
+                        android:textColor="#0B0F19"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        app:backgroundTint="#F59E0B"
+                        app:cornerRadius="12dp" />
+
+                </LinearLayout>
+
+                <!-- 1. KART: BLUETOOTH CİHAZ SEÇİMİ -->
+                <LinearLayout
+                    android:id="@+id/cardBluetooth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="14dp"
+                    android:layout_marginBottom="12dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="📡 BLUETOOTH ALICI / ANDROID TV SEÇİMİ"
+                            android:textColor="#F8FAFC"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <ProgressBar
+                            android:id="@+id/pbMenuScanning"
+                            style="?android:attr/progressBarStyleSmall"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:indeterminateTint="#00E5FF"
+                            android:visibility="gone"
+                            android:layout_marginEnd="10dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnMenuScan"
+                            style="@style/Widget.Material3.Button.TonalButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="38dp"
+                            android:text="Cihazları Tara"
+                            android:textSize="12sp"
+                            android:textColor="#00E5FF"
+                            app:backgroundTint="#1A00E5FF"
+                            app:cornerRadius="10dp" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvMenuScanStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Eşleşmiş ve taranan cihazlar listelenir:"
+                        android:textColor="#94A3B8"
+                        android:textSize="12sp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="8dp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvMenuDevices"
+                        android:layout_width="match_parent"
+                        android:layout_height="140dp"
+                        android:scrollbars="vertical" />
+
+                    <TextView
+                        android:id="@+id/tvMenuNoDevices"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="14dp"
+                        android:text="Cihaz bulunamadı. Android TV'nizi eşleşme moduna alın ve Tara'ya basın."
+                        android:textColor="#64748B"
+                        android:textSize="12sp"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+                <!-- 2. KART: JİROSKOP EKSENİ VE KALİBRASYON AYARLARI -->
+                <LinearLayout
+                    android:id="@+id/cardGyro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="14dp"
+                    android:layout_marginBottom="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🧭 JİROSKOP EKSENİ &amp; KALİBRASYON (X, Y, Z)"
+                        android:textColor="#F8FAFC"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Telefonunuzu yatay direksiyon şeklinde tuttuğunuzda Z ekseni önerilir. İstediğiniz ekseni seçip anlık test edebilirsiniz:"
+                        android:textColor="#94A3B8"
+                        android:textSize="12sp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="10dp" />
+
+                    <!-- Eksen Seçim Grubu -->
+                    <com.google.android.material.button.MaterialButtonToggleGroup
+                        android:id="@+id/groupAxis"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:singleSelection="true"
+                        app:selectionRequired="true">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnAxisX"
+                            style="@style/Widget.Material3.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:text="X Ekseni"
+                            android:textSize="12sp"
+                            android:textColor="#F8FAFC" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnAxisY"
+                            style="@style/Widget.Material3.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:text="Y Ekseni"
+                            android:textSize="12sp"
+                            android:textColor="#F8FAFC" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnAxisZ"
+                            style="@style/Widget.Material3.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:text="Z Ekseni (Önerilen)"
+                            android:textSize="12sp"
+                            android:textColor="#00E5FF" />
+
+                    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+                    <!-- Eksen Kontrolleri: Ters Çevir & Canlı Önizleme & Kalibre Et -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="12dp">
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchInvertAxis"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Yönü Tersine Çevir (-)"
+                            android:textColor="#F8FAFC"
+                            android:textSize="12sp" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="1dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:id="@+id/tvMenuLiveAngle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Anlık Açı: 0.0°"
+                            android:textColor="#00E5FF"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:fontFamily="monospace"
+                            android:layout_marginEnd="12dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnMenuCalibrate"
+                            style="@style/Widget.Material3.Button.TonalButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:text="Şimdi Sıfırla (0.0°)"
+                            android:textSize="12sp"
+                            android:textColor="#F8FAFC"
+                            app:backgroundTint="#334155"
+                            app:cornerRadius="10dp" />
+
+                    </LinearLayout>
+
+                    <!-- Kilit Açısı Seçici -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="12dp">
+
+                        <TextView
+                            android:id="@+id/tvMenuLockLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Toplam Direksiyon Kilit Açısı: 900° (±450°)"
+                            android:textColor="#94A3B8"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <com.google.android.material.slider.Slider
+                            android:id="@+id/sliderMenuLock"
+                            android:layout_width="match_parent"
+                            android:layout_height="36dp"
+                            android:valueFrom="0.0"
+                            android:valueTo="3.0"
+                            android:stepSize="1.0"
+                            android:value="2.0"
+                            app:thumbColor="#00E5FF"
+                            app:trackColorActive="#00E5FF"
+                            app:trackColorInactive="#334155" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- 3. KART: HAZIR BUTON PROFİLLERİ & TUŞ ÖZELLEŞTİRME -->
+                <LinearLayout
+                    android:id="@+id/cardProfiles"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="14dp"
+                    android:layout_marginBottom="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🎮 HAZIR BUTON PROFİLLERİ VE TUŞ ÖZELLEŞTİRME"
+                        android:textColor="#F8FAFC"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Oyun kolundaki tüm tuşları ekleyip kaldırabilir, istediğiniz hazır profili seçebilir veya özelleştirebilirsiniz:"
+                        android:textColor="#94A3B8"
+                        android:textSize="12sp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="10dp" />
+
+                    <!-- Hazır Profil Seçici Butonları -->
+                    <com.google.android.material.button.MaterialButtonToggleGroup
+                        android:id="@+id/groupProfiles"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:singleSelection="true"
+                        app:selectionRequired="true">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnProfileRacing"
+                            style="@style/Widget.Material3.Button.OutlinedButton"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:text="Yarış Standart"
+                            android:textSize="11sp"
+                            android:textColor="#00E5FF" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnProfileSim"
+                            style="@style/Widget.Material3.Button.OutlinedButton"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:text="Simülasyon / Pro"
+                            android:textSize="11sp"
+                            android:textColor="#F8FAFC" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnProfileArcade"
+                            style="@style/Widget.Material3.Button.OutlinedButton"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:text="Arcade / Kart"
+                            android:textSize="11sp"
+                            android:textColor="#F8FAFC" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnProfileCustom"
+                            style="@style/Widget.Material3.Button.OutlinedButton"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:text="Özel Profil"
+                            android:textSize="11sp"
+                            android:textColor="#F8FAFC" />
+
+                    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+                    <TextView
+                        android:id="@+id/tvProfileDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Yarış Standart: Gaz (A), Fren (B), El Freni (X), Nitro (Y), Kulakçık Vitesler (LB/RB), Menü (Start)."
+                        android:textColor="#00E5FF"
+                        android:textSize="12sp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp" />
+
+                    <!-- Gamepad Tuşlarını Açma/Kapatma Chip Listesi -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Kokpitte Görünecek ve Kullanılacak Tuşları Seçin:"
+                        android:textColor="#F8FAFC"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="6dp" />
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/chipGroupButtons"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:singleSelection="false">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipBtnA"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Gaz (A)"
+                            android:checked="true" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipBtnB"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Fren (B)"
+                            android:checked="true" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipBtnX"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="El Freni (X)"
+                            android:checked="true" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipBtnY"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Nitro / DRS (Y)"
+                            android:checked="true" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipBtnLB"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Vites Düşür (LB)"
+                            android:checked="true" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipBtnRB"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Vites Yükselt (RB)"
+                            android:checked="true" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipBtnLT"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Debriyaj (LT)" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipBtnRT"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tetik 2 (RT)" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipBtnStart"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Menü / Duraklat (Start)"
+                            android:checked="true" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipBtnSelect"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Harita / Kamera (Select)"
+                            android:checked="true" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipBtnDpadUp"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="D-Pad Yukarı" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipBtnDpadDown"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="D-Pad Aşağı" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipBtnDpadLeft"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="D-Pad Sol" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chipBtnDpadRight"
+                            style="@style/Widget.Material3.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="D-Pad Sağ" />
+
+                    </com.google.android.material.chip.ChipGroup>
+
+                </LinearLayout>
+
+                <!-- 4. KART: TİTREŞİM VE GERİ BİLDİRİM AYARLARI -->
+                <LinearLayout
+                    android:id="@+id/cardVibration"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="14dp"
+                    android:layout_marginBottom="24dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="📳 TİTREŞİM VE GERİ BİLDİRİM (FORCE FEEDBACK)"
+                        android:textColor="#F8FAFC"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Genel Dokunsal Titreşim:"
+                            android:textColor="#F8FAFC"
+                            android:textSize="13sp" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchVibration"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="6dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Direksiyon Kilit Sınırına Vurunca Titre (±450°):"
+                            android:textColor="#94A3B8"
+                            android:textSize="12sp" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchLockVibration"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginTop="6dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Pedal ve Vites Basış Titreşimi:"
+                            android:textColor="#94A3B8"
+                            android:textSize="12sp" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchPedalVibration"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- ============================================================== -->
+    <!-- 2. SÜRÜŞ KOKPİTİ EKRANI (COCKPIT DRIVING VIEW)                  -->
+    <!-- ============================================================== -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/viewCockpit"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:padding="8dp">
+
+        <!-- Kokpit Üst Çubuğu -->
+        <LinearLayout
+            android:id="@+id/cockpitTopBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <!-- Ana Menüye Dön Butonu -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBackToMenu"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:text="← ANA MENÜ"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:textColor="#00E5FF"
+                app:backgroundTint="#1A00E5FF"
+                app:cornerRadius="10dp" />
+
+            <!-- Merkez Kalibre Butonu -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCockpitCalibrate"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:layout_marginStart="8dp"
+                android:text="Sıfırla (0°)"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:textColor="#F8FAFC"
+                app:strokeColor="#334155"
+                app:cornerRadius="10dp" />
+
+            <!-- Dinamik Eksen & Kilit Rozeti -->
+            <TextView
+                android:id="@+id/tvCockpitAxisBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Eksen: Z | 900°"
+                android:textColor="#94A3B8"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <!-- Boşluk -->
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <!-- Kokpit Üstünde Ek Seçili Hızlı Tuşlar Konteyneri (Start, Select, D-Pad vb.) -->
+            <LinearLayout
+                android:id="@+id/containerCockpitExtraButtons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical" />
+
+            <!-- Bağlantı Durumu -->
+            <TextView
+                android:id="@+id/tvCockpitConnectionStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:text="Bağlantı Yok"
+                android:textColor="#EF4444"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <!-- SOL PEDAL: FREN (BTN_B) -->
+        <FrameLayout
+            android:id="@+id/cockpitBrakeContainer"
+            android:layout_width="140dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="2dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cockpitTopBar"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <LinearLayout
+                android:id="@+id/btnCockpitBrake"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🛑"
+                    android:textSize="28sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="FREN"
+                    android:textColor="#FF1744"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="BTN B"
+                    android:textColor="#64748B"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+        </FrameLayout>
+
+        <!-- SOL KULAKÇIK VİTES: LB (VİTES DÜŞÜR) -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPaddleShiftDown"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="56dp"
+            android:layout_height="90dp"
+            android:layout_marginStart="4dp"
+            android:text="LB\n▼"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="#F8FAFC"
+            app:backgroundTint="#1E293B"
+            app:cornerRadius="12dp"
+            app:layout_constraintStart_toEndOf="@id/cockpitBrakeContainer"
+            app:layout_constraintTop_toBottomOf="@id/cockpitTopBar"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <!-- SAĞ PEDAL: GAZ (BTN_A) -->
+        <FrameLayout
+            android:id="@+id/cockpitThrottleContainer"
+            android:layout_width="140dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cockpitTopBar"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <LinearLayout
+                android:id="@+id/btnCockpitThrottle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="⚡"
+                    android:textSize="28sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="GAZ"
+                    android:textColor="#00E676"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="BTN A"
+                    android:textColor="#64748B"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+        </FrameLayout>
+
+        <!-- SAĞ KULAKÇIK VİTES: RB (VİTES YÜKSELT) -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnPaddleShiftUp"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="56dp"
+            android:layout_height="90dp"
+            android:layout_marginEnd="4dp"
+            android:text="RB\n▲"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="#F8FAFC"
+            app:backgroundTint="#1E293B"
+            app:cornerRadius="12dp"
+            app:layout_constraintEnd_toStartOf="@id/cockpitThrottleContainer"
+            app:layout_constraintTop_toBottomOf="@id/cockpitTopBar"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <!-- MERKEZ KOKPİT & DİREKSİYON -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cockpitCenterPanel"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="2dp"
+            android:padding="10dp"
+            app:layout_constraintStart_toEndOf="@id/btnPaddleShiftDown"
+            app:layout_constraintEnd_toStartOf="@id/btnPaddleShiftUp"
+            app:layout_constraintTop_toBottomOf="@id/cockpitTopBar"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <!-- Dönen Direksiyon Görseli -->
+            <ImageView
+                android:id="@+id/ivCockpitWheel"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:contentDescription="Steering Wheel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <!-- Telemetri ve Açı Paneli -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginStart="12dp"
+                app:layout_constraintStart_toEndOf="@id/ivCockpitWheel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <!-- Büyük Dijital Açı -->
+                <TextView
+                    android:id="@+id/tvCockpitAngle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0.0°"
+                    android:textColor="#00E5FF"
+                    android:textSize="40sp"
+                    android:textStyle="bold"
+                    android:fontFamily="sans-serif-black"
+                    android:includeFontPadding="false" />
+
+                <!-- Yatay Sapma Çubuğu -->
+                <com.google.android.material.progressindicator.LinearProgressIndicator
+                    android:id="@+id/cockpitProgressIndicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="6dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:max="1000"
+                    android:progress="500"
+                    app:indicatorColor="#00E5FF"
+                    app:trackColor="#334155"
+                    app:trackCornerRadius="3dp" />
+
+                <!-- Alt Telemetri Detayı -->
+                <TextView
+                    android:id="@+id/tvCockpitTelemetry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Stick X: 0 | Z-Ekseni | 900°"
+                    android:textColor="#64748B"
+                    android:textSize="11sp"
+                    android:fontFamily="monospace" />
+
+                <!-- Kokpit Hızlı Aksiyon Tuşları (Nitro Y, El Freni X vb.) -->
+                <LinearLayout
+                    android:id="@+id/rowCockpitQuickActions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layout_marginTop="8dp" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>
